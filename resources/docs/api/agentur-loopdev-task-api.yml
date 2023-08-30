@@ -1,0 +1,194 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0-oas3
+  title: Agentur Loop task API
+  description: Agentur Loop task API
+paths:
+  /orders:
+    get:
+      security:
+        - ApiKeyAuth : []
+      description: Get Orders.
+      operationId: getOrders
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Orders"
+        required: true
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    $ref: "#/components/schemas/Orders"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+  /orders/id/add:
+    post:
+      security:
+        - ApiKeyAuth : []
+      description: Add Product to Order.
+      operationId: addProductOrder
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: number
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              properties:
+                product_id:
+                  type: number
+        required: true
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    $ref: "#/components/schemas/Product"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+  /orders/{id}/pay:
+    post:
+      security:
+        - ApiKeyAuth : []
+      description: Pay Order.
+      operationId: payOrder
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: number
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              properties:
+                payment_provider:
+                  type: string
+        required: true
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    $ref: "#/components/schemas/Orders"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+servers:
+  - description: Local
+    url: https://agentur-loop-task.local/api/v1
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-KEY
+  schemas:
+    Orders:
+      type: object
+      additionalProperties: false
+      properties:
+        order_id:
+          type: number
+        customer_email:
+          type: string
+        value:
+          type: number
+        products:
+          $ref: "#/components/schemas/Products"
+        created_at:
+          type: string
+    Products:
+      type: object
+      additionalProperties: false
+      properties:
+        id:
+          type: number
+        productname:
+          type: string
+        price:
+          type: string
+    Product:
+      type: object
+      additionalProperties: false
+      properties:
+        product_id:
+          type: number
+    ApiResponse:
+      type: object
+      properties:
+        meta:
+          type: object
+          properties:
+            message:
+              type: string
+            status:
+              type: boolean
+  responses:
+    Successful:
+      description: "Successful"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ApiResponse"
+    Unauthenticated:
+      description: "Unauthenticated"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ApiResponse"
+    Forbidden:
+      description: "Forbidden"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ApiResponse"
+    NotFound:
+      description: "Not Found"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ApiResponse"
+    BadRequest:
+      description: "Bad Request"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ApiResponse"
+    NotValid:
+      description: "Request is <b>not valid</b>. Check a schema"
+      content:
+        application/json:
+          schema:
+            type: object
+            additionalProperties: false
+            properties:
+              message:
+                type: string
+              errors:
+                type: object

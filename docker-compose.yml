@@ -1,0 +1,89 @@
+version: "3.9"
+services:
+
+  webserver:
+    networks:
+      dev_docker:
+        aliases:
+          - agentur-loop-task.local
+        ipv4_address: 122.122.122.11
+    image: nginx:alpine
+    container_name: agentur-loop-task-webserver
+    working_dir: /application
+    tty: true
+    environment:
+      - TERM=xterm-256color
+    volumes:
+      - .:/application
+      - ./docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./docker/nginx/ssl:/etc/ssl
+    ports:
+      - 80
+      - 443
+    depends_on:
+      - php-fpm
+
+  php-fpm:
+    networks:
+      dev_docker:
+        ipv4_address: 122.122.122.12
+    build: './docker/php-fpm'
+    container_name: agentur-loop-task-php-fpm
+    tty: true
+    environment:
+      - TERM=xterm-256color
+      - COMPOSER_MEMORY_LIMIT=-1
+    working_dir: /application
+    volumes:
+      - .:/application
+      - ./docker/php-fpm/php-ini-overrides.ini:/usr/local/etc/php/conf.d/99-overrides.ini
+      - ./docker/php-fpm/php.ini:/usr/local/etc/php/php.ini
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  postgres:
+    networks:
+      dev_docker:
+        ipv4_address: 122.122.122.13
+    image: postgres:15.1
+    container_name: agentur-loop-task-postgres
+    working_dir: /application
+    volumes:
+      - .:/application
+      - ./docker/mysql/storage/db-agentur-loop-task:/var/lib/postgres
+      #- ./mysql/my.cnf:/etc/mysql/my.cnf
+    tty: true
+    environment:
+      - POSTGRES_ROOT_PASSWORD=1234abcD
+      - POSTGRES_DATABASE=agentur-loop
+      - POSTGRES_USER=agentur-loop
+      - POSTGRES_PASSWORD=1234abcD
+      - TERM=xterm-256color
+    ports:
+      - 3306
+
+  node:
+    networks:
+      dev_docker:
+        ipv4_address: 122.122.122.14
+    image: node:16
+    container_name: agentur-loop-task-node
+    user: "node"
+    working_dir: /application/node_modules
+    volumes:
+      - .:/application
+    environment:
+      - NODE_ENV=development
+      - TERM=xterm-256color
+    command: bash -c "npm i && npm run dev"
+    tty: true
+    stdin_open: true
+
+networks:
+  dev_docker:
+    name: agentur-loop_dev_docker
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: "122.122.122.0/16"
