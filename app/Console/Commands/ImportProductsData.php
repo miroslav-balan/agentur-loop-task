@@ -20,8 +20,13 @@ class ImportProductsData extends Command
         FetchCsv $fetchCsv
     )
     {
-        $importProducts->import(
+        $result = $importProducts->import(
             $fetchCsv->fetch('https://backend-developer.view.agentur-loop.com/products.csv')
+        );
+
+        $this->info(
+            $result->getSuccessful() . ' products has been imported successfully | ' .
+            $result->getFailed() . ' products failed to import',
         );
     }
 }

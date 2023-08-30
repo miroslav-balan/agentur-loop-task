@@ -21,8 +21,13 @@ class ImportCustomersData extends Command
         FetchCsv $fetchCsv
     )
     {
-        $importCustomers->import(
+        $result = $importCustomers->import(
             $fetchCsv->fetch('https://backend-developer.view.agentur-loop.com/customers.csv')
+        );
+
+        $this->info(
+             $result->getSuccessful() . ' customers has been imported successfully | ' .
+             $result->getFailed() . ' customers failed to import',
         );
     }
 }
