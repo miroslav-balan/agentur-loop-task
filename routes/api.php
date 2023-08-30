@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\DogsController;
+use App\Http\Controllers\Api\OrdersController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,3 +15,5 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('orders', [OrdersController::class, 'index'])
+    ->name('orders');
