@@ -8,7 +8,6 @@ use Tests\TestCase;
 
 class OrderItemsControllerTest extends TestCase
 {
-
     public function testStore()
     {
         $order = Order::factory()->create();
@@ -32,7 +31,7 @@ class OrderItemsControllerTest extends TestCase
                     '*' => [
                         'id',
                         'productname',
-                        'price'
+                        'price',
                     ],
                 ],
             ],
@@ -41,4 +40,17 @@ class OrderItemsControllerTest extends TestCase
         $response->assertOk();
     }
 
+    public function testStoreOrderPayed()
+    {
+        $order = Order::factory()->create(['payed' => true]);
+        $this->actingAs($order->customer);
+
+        $response = $this->postJson(
+            route('api.v1.orders.add', $order->getKey()),
+            ['product_id' => Product::factory()->create()->getKey()],
+            ['Token' => env('API_TOKEN')]
+        );
+
+        $response->assertForbidden();
+    }
 }

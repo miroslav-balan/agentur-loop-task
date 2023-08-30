@@ -8,6 +8,7 @@ use App\Http\Resources\OrderResource;
 use App\Models\Order;
 use Auth;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Pipeline\Pipeline;
 
 class OrdersController extends Controller
@@ -34,9 +35,12 @@ class OrdersController extends Controller
 
     public function destroy(Order $order, ApiResponse $apiResponse)
     {
-        if ($order->customer_id !== Auth::user()->id) {
-            throw new \RuntimeException('Access Denied');
-        }
+        abort_if(
+            $order->customer_id !== Auth::user()->id,
+            Response::HTTP_FORBIDDEN,
+            'Access Denied'
+        );
+
         $order->delete();
 
         $apiResponse
