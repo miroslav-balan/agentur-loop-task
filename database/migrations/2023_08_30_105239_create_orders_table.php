@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('customer_id');
             $table->boolean('payed');
-            $table->enum('payment_method', [
+            $table->enum('payment_provider', [
                 'superpay',
             ])
                 ->nullable();

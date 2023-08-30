@@ -52,6 +52,7 @@ class Order extends Model
     protected $fillable = [
         'customer_id',
         'payed',
+        'payment_provider',
     ];
 
     protected $casts = [
