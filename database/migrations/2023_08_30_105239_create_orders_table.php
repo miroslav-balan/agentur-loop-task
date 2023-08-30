@@ -14,10 +14,12 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('customer_id');
-            $table->float('payed');
+            $table->boolean('payed');
             $table->enum('payment_method', [
                 'superpay'
-            ]);
+            ])
+                ->nullable();
+            $table->softDeletes();
             $table->timestamps();
 
             $table->foreign('customer_id')

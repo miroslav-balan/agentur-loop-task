@@ -19,8 +19,8 @@ class OrderFactory extends Factory
     {
         return [
             'customer_id' => Customer::factory()->create(),
-            'payed' => $this->faker->randomFloat(2,0,1000),
-            'payment_method' => 'superpay'
+            'payed' => false,
+            'payment_method' => null
         ];
     }
 }

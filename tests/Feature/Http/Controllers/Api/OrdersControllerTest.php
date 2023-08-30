@@ -16,7 +16,7 @@ class OrdersControllerTest extends TestCase
             ->create();
 
         $response = $this->getJson(
-            route('api.v1.orders'),
+            route('api.v1.orders.index'),
             ['Token' => env('API_TOKEN')]
         );
 
@@ -34,5 +34,51 @@ class OrdersControllerTest extends TestCase
                 ],
             ],
         ]);
+    }
+
+    public function testStore()
+    {
+        $this->actingAs(Customer::factory()->create());
+
+        $response = $this->postJson(
+            route('api.v1.orders.store'),
+            [],
+            ['Token' => env('API_TOKEN')]
+        );
+
+        $response->assertJsonStructure([
+            'data' => [
+                'payed',
+                'payment_method',
+                'customer' => [
+                    'first_name',
+                    'last_name'
+                ]
+            ],
+        ]);
+
+        $response->assertCreated();
+    }
+
+    public function testDelete()
+    {
+
+        $order = Order::factory()->create();
+
+        $this->actingAs($order->customer);
+
+        $response = $this->deleteJson(
+            route('api.v1.orders.destroy', $order->getKey()),
+            [],
+            ['Token' => env('API_TOKEN')]
+        );
+
+        $response->assertJsonStructure([
+            'meta' => [
+                'message'
+            ],
+        ]);
+
+        $response->assertOk();
     }
 }
