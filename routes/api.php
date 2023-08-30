@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\OrderItemsController;
 use App\Http\Controllers\Api\OrdersController;
 use Illuminate\Support\Facades\Route;
 
@@ -16,3 +17,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::resource('orders', OrdersController::class)
     ->except(['update', 'edit']);
+
+Route::post('orders/{order}/add', [OrderItemsController::class, 'store'])
+    ->name('orders.add');

@@ -65,7 +65,6 @@ class OrdersControllerTest extends TestCase
     {
 
         $order = Order::factory()->create();
-
         $this->actingAs($order->customer);
 
         $response = $this->deleteJson(
