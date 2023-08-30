@@ -4,6 +4,8 @@ Machine with [Docker installed](https://docs.docker.com/engine/install/)
 ## Instructions
 
 ### On a linux machine
+copy .env.docker to .env
+
 To install app run
 ```sh
 make install

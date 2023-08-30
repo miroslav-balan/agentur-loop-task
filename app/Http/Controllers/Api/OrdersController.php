@@ -23,10 +23,10 @@ class OrdersController extends Controller
         return OrderResource::collection($data);
     }
 
-    public function store(Request $request)
+    public function create(Request $request)
     {
         $order = Order::query()->create([
-            'customer_id' => \uth::user()->id,
+            'customer_id' => Auth::user()->id,
             'payed' => false,
         ]);
 

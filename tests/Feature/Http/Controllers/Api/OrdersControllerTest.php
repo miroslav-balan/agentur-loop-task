@@ -37,13 +37,12 @@ class OrdersControllerTest extends TestCase
         ]);
     }
 
-    public function testStore()
+    public function testCreate()
     {
         $this->actingAs(Customer::factory()->create());
 
-        $response = $this->postJson(
-            route('api.v1.orders.store'),
-            [],
+        $response = $this->getJson(
+            route('api.v1.orders.create'),
             ['Token' => env('API_TOKEN')]
         );
 

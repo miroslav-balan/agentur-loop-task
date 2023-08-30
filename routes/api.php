@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::resource('orders', OrdersController::class)
-    ->except(['update', 'edit']);
+    ->except(['update', 'edit', 'store']);
 
 Route::post('orders/{order}/add', [OrderItemsController::class, 'store'])
     ->name('orders.add');
