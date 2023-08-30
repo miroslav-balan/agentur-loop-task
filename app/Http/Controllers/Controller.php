@@ -14,7 +14,7 @@ class Controller extends BaseController
     public function __construct()
     {
         // Necessary to inject for a testing app
-        if(!app()->runningUnitTests()){
+        if (! app()->runningUnitTests()) {
             $customer = Customer::first() ?? Customer::factory()->create();
             \Auth::login($customer);
         }
