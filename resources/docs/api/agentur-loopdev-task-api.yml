@@ -119,6 +119,8 @@ components:
           type: string
         value:
           type: number
+        customer:
+          $ref: "#/components/schemas/Customers"
         products:
           $ref: "#/components/schemas/Products"
         created_at:
@@ -132,6 +134,16 @@ components:
         productname:
           type: string
         price:
+          type: string
+    Customers:
+      type: object
+      additionalProperties: false
+      properties:
+        id:
+          type: number
+        first_name:
+          type: string
+        last_name:
           type: string
     Product:
       type: object

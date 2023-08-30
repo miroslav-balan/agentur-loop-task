@@ -55,9 +55,7 @@ RUN docker-php-ext-install \
 
 # Install xdebug
 RUN pecl install xdebug \
-    && pecl install imagick \
-    && docker-php-ext-enable xdebug \
-    && docker-php-ext-enable imagick
+    && docker-php-ext-enable xdebug
 
 
 # Xdebug setup

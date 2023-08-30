@@ -55,8 +55,8 @@ services:
     tty: true
     environment:
       - POSTGRES_ROOT_PASSWORD=1234abcD
-      - POSTGRES_DATABASE=agentur-loop
-      - POSTGRES_USER=agentur-loop
+      - POSTGRES_DATABASE=agentur_loop
+      - POSTGRES_USER=agentur_loop
       - POSTGRES_PASSWORD=1234abcD
       - TERM=xterm-256color
     ports:
