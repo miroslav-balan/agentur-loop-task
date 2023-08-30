@@ -10,7 +10,7 @@ class OrdersControllerTest extends TestCase
 
     public function testIndex()
     {
-        $order = Order::factory()
+        Order::factory()
             ->has(OrderItem::factory()->count(2))
             ->for(Customer::factory()->create())
             ->create();
