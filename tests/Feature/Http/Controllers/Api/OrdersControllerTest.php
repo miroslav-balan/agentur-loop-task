@@ -1,5 +1,7 @@
 <?php
+
 namespace Tests\Feature\Http\Controllers\Api;
+
 use App\Models\Customer;
 use App\Models\Order;
 use App\Models\OrderItem;
@@ -7,7 +9,6 @@ use Tests\TestCase;
 
 class OrdersControllerTest extends TestCase
 {
-
     public function testIndex()
     {
         Order::factory()
@@ -29,8 +30,8 @@ class OrdersControllerTest extends TestCase
                     'payment_method',
                     'customer' => [
                         'first_name',
-                        'last_name'
-                    ]
+                        'last_name',
+                    ],
                 ],
             ],
         ]);
@@ -52,8 +53,8 @@ class OrdersControllerTest extends TestCase
                 'payment_method',
                 'customer' => [
                     'first_name',
-                    'last_name'
-                ]
+                    'last_name',
+                ],
             ],
         ]);
 
@@ -75,7 +76,7 @@ class OrdersControllerTest extends TestCase
 
         $response->assertJsonStructure([
             'meta' => [
-                'message'
+                'message',
             ],
         ]);
 

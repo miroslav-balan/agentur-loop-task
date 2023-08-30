@@ -17,7 +17,7 @@ class OrderResource extends JsonResource
         return [
             'payed' => $this->payed,
             'payment_method' => $this->payment_method,
-            'customer' => new CustomerResource($this->customer)
+            'customer' => new CustomerResource($this->customer),
         ];
     }
 }

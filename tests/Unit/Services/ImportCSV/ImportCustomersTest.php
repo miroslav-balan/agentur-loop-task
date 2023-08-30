@@ -1,12 +1,13 @@
 <?php
+
 namespace Tests\Unit\Services\ImportCSV;
+
 use App\Services\ImportCSV\ImportCustomers;
 use League\Csv\Reader;
 use Tests\TestCase;
 
 class ImportCustomersTest extends TestCase
 {
-
     public function testImport()
     {
         $string = '"ID","Job Title","Email Address","FirstName LastName","registered_since","phone"
@@ -24,5 +25,4 @@ class ImportCustomersTest extends TestCase
             'phone' => '1-781-821-4473',
         ]);
     }
-
 }

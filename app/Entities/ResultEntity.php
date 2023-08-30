@@ -5,6 +5,7 @@ namespace App\Entities;
 class ResultEntity
 {
     private int $failed = 0;
+
     private int $successful = 0;
 
     public function incrementFailed(): void

@@ -20,7 +20,7 @@ class OrderFactory extends Factory
         return [
             'customer_id' => Customer::factory()->create(),
             'payed' => false,
-            'payment_method' => null
+            'payment_method' => null,
         ];
     }
 }

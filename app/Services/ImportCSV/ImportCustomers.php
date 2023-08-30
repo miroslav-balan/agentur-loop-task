@@ -1,12 +1,13 @@
 <?php
+
 namespace App\Services\ImportCSV;
+
 use App\Entities\ResultEntity;
 use App\Models\Customer;
 use League\Csv\Reader;
 
 class ImportCustomers implements ImportDataInterface
 {
-
     public function __construct(private readonly ResultEntity $resultEntity)
     {
     }
@@ -16,7 +17,7 @@ class ImportCustomers implements ImportDataInterface
 
         Customer::truncate();
 
-        foreach ($csv->getRecords() as $record){
+        foreach ($csv->getRecords() as $record) {
             $name = explode(' ', $record['FirstName LastName']);
             try {
                 Customer::create([
@@ -26,9 +27,9 @@ class ImportCustomers implements ImportDataInterface
                     'first_name' => $name[0] ?? '',
                     'last_name' => $name[1] ?? '',
                     'phone' => $record['phone'],
-                    'created_at' => $record['registered_since']
+                    'created_at' => $record['registered_since'],
                 ]);
-            }catch (\Exception $exception){
+            } catch (\Exception $exception) {
                 $this->resultEntity->incrementFailed();
             }
 
@@ -37,5 +38,4 @@ class ImportCustomers implements ImportDataInterface
 
         return $this->resultEntity;
     }
-
 }
