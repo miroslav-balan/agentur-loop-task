@@ -3,17 +3,13 @@ namespace App\Services\ImportCSV;
 use App\Models\Customer;
 use League\Csv\Reader;
 
-class ImportCustomers
+class ImportCustomers implements ImportDataInterface
 {
-    public function __construct(private readonly fetchCsv $fetchCsv)
-    {
-    }
 
-    public function import()
+    public function import(Reader $csv)
     {
         Customer::truncate();
 
-        $csv = $this->fetchCsv->fetch('https://backend-developer.view.agentur-loop.com/customers.csv');
         foreach ($csv->getRecords() as $record){
             $name = explode(' ', $record['FirstName LastName']);
             Customer::create([

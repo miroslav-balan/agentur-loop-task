@@ -2,7 +2,7 @@
 namespace App\Services\ImportCSV;
 use League\Csv\Reader;
 
-class fetchCsv
+class FetchCsv
 {
 
     public function fetch(string $url): Reader
